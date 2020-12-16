@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.themastergui.lensesio.udf.spacialmap</groupId>
-    <artifactId>com.themastergui.lensesio.udf.spacialmap</artifactId>
+    <groupId>com.themastergui.lensesio.udf.spatialmap</groupId>
+    <artifactId>com.themastergui.lensesio.udf.spatialmap</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -32,6 +32,11 @@
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
         </dependency>
     </dependencies>
 
