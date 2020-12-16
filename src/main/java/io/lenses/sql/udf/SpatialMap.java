@@ -18,8 +18,8 @@ public class SpatialMap implements UserDefinedFunction3
     public static double TWOPI;
 
     static {
-        Runner.PI = 3.14159265;
-        Runner.TWOPI = 2.0 * Runner.PI;
+        PI = 3.14159265;
+        TWOPI = 2.0 * PI;
     }
 
     public SpatialMap(){
@@ -130,16 +130,16 @@ public class SpatialMap implements UserDefinedFunction3
             final double point2_long = polygonsList.get((i + 1) % n).getY() - longitude;
             angle += Angle2D(point1_lat, point1_long, point2_lat, point2_long);
         }
-        return Math.abs(angle) >= Runner.PI;
+        return Math.abs(angle) >= PI;
     }
 
     public static double Angle2D(final double y1, final double x1, final double y2, final double x2) {
         final double theta1 = Math.atan2(y1, x1);
         final double theta2 = Math.atan2(y2, x2);
         double dtheta;
-        for (dtheta = theta2 - theta1; dtheta > Runner.PI; dtheta -= Runner.TWOPI) {}
-        while (dtheta < -Runner.PI) {
-            dtheta += Runner.TWOPI;
+        for (dtheta = theta2 - theta1; dtheta > PI; dtheta -= TWOPI) {}
+        while (dtheta < -PI) {
+            dtheta += TWOPI;
         }
         return dtheta;
     }
