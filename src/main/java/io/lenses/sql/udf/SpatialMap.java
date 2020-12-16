@@ -16,6 +16,7 @@ public class SpatialMap implements UserDefinedFunction3
 {
     public static double PI;
     public static double TWOPI;
+    //List<Point2D> polygonsList;
 
     static {
         PI = 3.14159265;
@@ -23,7 +24,10 @@ public class SpatialMap implements UserDefinedFunction3
     }
 
     public SpatialMap(){
+        //JSONObject object = new JSONObject("{\"runway\":[[51.465164,-0.434132],[51.464743,-0.434099],[51.464993,-0.482352],[51.464569,-0.482352]]}");
+        //polygonsList = getPolygonsListFromJson(object);
     }
+
 
     public static void main(final String[] args) {
 
@@ -31,12 +35,13 @@ public class SpatialMap implements UserDefinedFunction3
         final ArrayList<Double> long_array = new ArrayList<Double>();
 
         JSONObject object = new JSONObject("{\"runway\":[[51.465164,-0.434132],[51.464743,-0.434099],[51.464993,-0.482352],[51.464569,-0.482352]]}");
+//        JSONObject object = new JSONObject("{\"runway\":[[50.465164,-2.434132],[71.564743,-5.434099],[51.464993,-7.482352],[51.464569,-0.482352]]}");
         SpatialMap client = new SpatialMap();
         List<Point2D>  polygonsList = client.getPolygonsListFromJson(object);
 
-
-        System.out.println("coordinates should be outside south runway: " + client.coordinateIsInsidePolygon(51.4649486409, -0.427777950819, polygonsList));
-        System.out.println("coordinates should be inside south runway: " + client.coordinateIsInsidePolygon(51.4648884095, -0.453833976531, polygonsList));
+        System.out.println("coordinates should be outside south runway so should return false: " + client.coordinateIsInsidePolygon(51.4649486409, -0.427777950819, polygonsList));
+        System.out.println("coordinates should be inside south runway so should return true: " + client.coordinateIsInsidePolygon(51.4648884095, -0.453833976531, polygonsList));
+        System.out.println("coordinates should be inside south runway so should return false: " + client.coordinateIsInsidePolygon(51.4659884096, -0.453843976632, polygonsList));
     }
 
     private List<Point2D> getPolygonsListFromJson(JSONObject object)
@@ -67,6 +72,7 @@ public class SpatialMap implements UserDefinedFunction3
 
     @Override
     public DataType typeMapping(DataType lat, DataType lon, DataType polygons) throws UdfException {
+        System.out.println("inside typeMapping");
         if (!lat.isDouble())
             throw new UdfException("Expecting first argument to be double but found:" + lat.name);
         if (!lon.isDouble())
@@ -78,6 +84,7 @@ public class SpatialMap implements UserDefinedFunction3
 
     @Override
     public Value evaluate(Value arg1, Value arg2, Value arg3) throws UdfException {
+        System.out.println("inside evaluate. JsonArray is " + arg3.toString());
         double lat = getDoubleOrThrow(arg1);
         double lon = getDoubleOrThrow(arg2);
         JSONObject polygonJson = getJsonOrThrow(arg3);
@@ -97,7 +104,9 @@ public class SpatialMap implements UserDefinedFunction3
     private JSONObject getJsonOrThrow(Value value) throws UdfException {
         try
         {
-            JSONObject object = new JSONObject(value);
+            String json = ((StringValue) value).get();
+            //System.out.println("inside getJsonOrThrow() value of value is " + json);
+            JSONObject object = new JSONObject(json);
             return object;
         }
         catch(Exception e){

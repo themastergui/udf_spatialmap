@@ -8,11 +8,26 @@ Works for both Snapshot SQL and Streaming SQL Engines.
 
 Syntax of UDF IS:
 
-`SELECT lat,lon,_time, spacialmap(lat,lon) as is_on_runway FROM coordinates LIMIT 100;`
+```sql
+SELECT lat,lon,_time, spacialmap(lat,lon) as is_on_runway FROM coordinates LIMIT 100;
+```
 
 ## Lenses.io Environment
 
 If you don't have Lenses.io setup for your Kafka, use the Lenses.io Box Docker (an all-in-one Kafka & Lenses.io environment). Get the docker run command and free license key from [lenses.io/box](https://lenses.io/box/)
+
+### Ensure you mount the jars for the custom UDF to the /opt/lenses/plugins/udf/ directory. The following Jars:
+
+
+json-20201115.jar
+lensesio-lemastergui-udf-spatialmap-1.2.0.jar
+lenses-sql-udf-4.0.0.jar
+
+Run Box whilst mounting the volume with the command:
+
+```bash
+docker run -e ADV_HOST=127.0.0.1 -e EULA="<<LICENSE KEY>>" --volume /$MY_BUILD_TARGET_DIR/:/opt/lenses/plugins/udf/  --rm -p 3030:3030 -p 9092:9092 lensesio/box
+```
 
 ## Sample data to test
 
@@ -782,3 +797,35 @@ If you don't have Lenses.io setup for your Kafka, use the Lenses.io Box Docker (
 ```
 
 
+## Test the command:
+
+From the SQL Studio, run the statement:
+
+```sql
+SELECT lat, lon, _time, spatialmap(lat,lon,"{\"runway\":[[51.465164,-0.434132],[51.464743,-0.434099],[51.464993,-0.482352],[51.464569,-0.482352]]}")  FROM aircrafts LIMIT 100;
+```
+
+The command takes three arguments, the latitude and longitude to geo-map. The third argument is a JSON Array with the coordinates for the polygon. The key name for the array is just a label.
+
+```json
+{
+  "runway": [
+    [
+      51.465164,
+      -0.434132
+    ],
+    [
+      51.464743,
+      -0.434099
+    ],
+    [
+      51.464993,
+      -0.482352
+    ],
+    [
+      51.464569,
+      -0.482352
+    ]
+  ]
+}
+```
