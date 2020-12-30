@@ -12,6 +12,8 @@ Syntax of UDF IS:
 SELECT lat,lon,_time, spacialmap(lat,lon, <polygon json>) as is_on_runway FROM coordinates LIMIT 100;
 ```
 
+See [Geospatial analytics for Apache Kafka](https://lenses.io/blog/2020/12/geo-spatial-sql-data-processing-for-apache-kafka/) blog for more details. 
+
 ## Lenses.io Environment
 
 If you don't have Lenses.io setup for your Kafka, use the Lenses.io Box Docker (an all-in-one Kafka & Lenses.io environment). Get the docker run command and free license key from [lenses.io/box](https://lenses.io/box/)
