@@ -9,7 +9,7 @@ Works for both Snapshot SQL and Streaming SQL Engines.
 Syntax of UDF IS:
 
 ```sql
-SELECT lat,lon,_time, spacialmap(lat,lon) as is_on_runway FROM coordinates LIMIT 100;
+SELECT lat,lon,_time, spacialmap(lat,lon, <polygon json>) as is_on_runway FROM coordinates LIMIT 100;
 ```
 
 ## Lenses.io Environment
